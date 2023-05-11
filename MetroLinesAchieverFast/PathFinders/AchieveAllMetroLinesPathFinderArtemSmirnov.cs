@@ -67,7 +67,7 @@ namespace MetroLinesAchieverFast.PathFinders
                 .Where(_I => _I.Visited)
                 .Select(_I => _I.Station.LineId).Contains(_Id)))
             {
-                Console.WriteLine("One of paths found");
+                Console.WriteLine("Один из путей найден!");
                 _PathV.Valid = true;
                 return;
             }
