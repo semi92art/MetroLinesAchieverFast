@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using MetroLinesAchieverFast.Entities;
 
@@ -59,20 +60,23 @@ namespace MetroLinesAchieverFast.PathFinders
         
         private void FindAllPaths(PathWithValidity _PathV, Vertex _LastVertex)
         {
+            if (_LastVertex.Visited) // опционально
+                return;
             _LastVertex.Visited = true;
             if (m_LineIds.All(_Id => _PathV.Path
                 .Where(_I => _I.Visited)
                 .Select(_I => _I.Station.LineId).Contains(_Id)))
             {
+                Console.WriteLine("One of paths found");
                 _PathV.Valid = true;
                 return;
             }
-            if (_PathV.Path.Count > m_StationsCount)
-            {
+            if (_PathV.Path.Count > m_StationsCount / 2) // опционально
                 return;
-            }
-            foreach (var neiberhood in _LastVertex.Neiberhoods)
+            foreach (var neiberhood in _LastVertex.Neiberhoods.ToArray())
             {
+                if (_PathV.Path.Any(_V => _V.Station == neiberhood)) // опционально
+                    continue;
                 var newVertex = CreateNewVertex(neiberhood);
                 if (_LastVertex.Station.LineId == neiberhood.LineId)
                 {
@@ -110,7 +114,7 @@ namespace MetroLinesAchieverFast.PathFinders
             PathWithValidity shortestPath = null;
             foreach (var pathV in m_PathsV.Where(_Pv => _Pv.Valid))
             {
-                int distance = pathV.Path.Last().Distance;
+                int distance = pathV.Path.Count;
                 if (distance > shortestPathLength)
                     continue;
                 shortestPathLength = distance;
