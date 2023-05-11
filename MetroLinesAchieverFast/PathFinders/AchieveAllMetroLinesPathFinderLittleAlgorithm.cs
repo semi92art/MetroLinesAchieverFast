@@ -6,6 +6,8 @@ namespace MetroLinesAchieverFast.PathFinders
 {
     public class AchieveAllMetroLinesPathFinderLittleAlgorithm : IAchieveAllMetroLinesPathFinder
     {
+        #region api
+
         public List<MetroStation> FindShortestPath(Graph _Graph, string _Start)
         {
             var vertices = GetVertices(_Graph);
@@ -48,6 +50,10 @@ namespace MetroLinesAchieverFast.PathFinders
 
             return GetShortestPath(_Graph, vertices);
         }
+
+        #endregion
+
+        #region nonpublic methods
 
         private static List<Vertex> GetVertices(Graph _Graph)
         {
@@ -94,5 +100,7 @@ namespace MetroLinesAchieverFast.PathFinders
 
             return shortestPath;
         }
+
+        #endregion
     }
 }
