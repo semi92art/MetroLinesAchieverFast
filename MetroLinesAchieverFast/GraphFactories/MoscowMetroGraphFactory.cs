@@ -88,17 +88,17 @@ namespace MetroLinesAchieverFast.GraphFactories
             var edges = new List<Edge>();
             foreach (var lineAndstationsKvp in _RawData2.Stations)
             {
-                var stations = lineAndstationsKvp.Value;
-                for (int i = 0; i < stations.Count - 1; i++)
+                var stationsRaw = lineAndstationsKvp.Value;
+                for (int i = 0; i < stationsRaw.Count - 1; i++)
                 {
-                    var station1 = allStationsData.FirstOrDefault(_S => _S.Name == stations[i]);
-                    var station2 = allStationsData.FirstOrDefault(_S => _S.Name == stations[i]);
+                    var station1 = allStationsData.FirstOrDefault(_S => _S.Name == stationsRaw[i]);
+                    var station2 = allStationsData.FirstOrDefault(_S => _S.Name == stationsRaw[i + 1]);
                     if (station1 == null || station2 == null)
                         continue;
                     var edge = new Edge
                     {
-                        Start  = new MetroStation{ StationName = stations[i], LineId = lineAndstationsKvp.Key},
-                        End    = new MetroStation{ StationName = stations[i + 1], LineId = lineAndstationsKvp.Key},
+                        Start  = new MetroStation{ StationName = stationsRaw[i], LineId = lineAndstationsKvp.Key},
+                        End    = new MetroStation{ StationName = stationsRaw[i + 1], LineId = lineAndstationsKvp.Key},
                         Weight = CalculateWeight(station1, station2),
                     };
                     edges.Add(edge);
